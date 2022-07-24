@@ -60,6 +60,17 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
+name = "python-dotenv"
+version = "0.20.0"
+description = "Read key-value pairs from a .env file and set them as environment variables"
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[package.extras]
+cli = ["click (>=5.0)"]
+
+[[package]]
 name = "python-telegram-bot"
 version = "13.13"
 description = "We have made you a wrapper you can't refuse"
@@ -141,7 +152,7 @@ test = ["pytest-mock (>=3.3)", "pytest (>=4.3)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "d87ba332a908640bd3a83da240c1cb7e36ec215220717354824183a6f3bfbd86"
+content-hash = "3c655a7ef8a26967599c462c487e729a1f56ad386468750d83dc589e56b03463"
 
 [metadata.files]
 apscheduler = [
@@ -163,6 +174,10 @@ click = [
 colorama = [
     {file = "colorama-0.4.5-py2.py3-none-any.whl", hash = "sha256:854bf444933e37f5824ae7bfc1e98d5bce2ebe4160d46b5edf346a89358e99da"},
     {file = "colorama-0.4.5.tar.gz", hash = "sha256:e6c6b4334fc50988a639d9b98aa429a0b57da6e17b9a44f0451f930b6967b7a4"},
+]
+python-dotenv = [
+    {file = "python-dotenv-0.20.0.tar.gz", hash = "sha256:b7e3b04a59693c42c36f9ab1cc2acc46fa5df8c78e178fc33a8d4cd05c8d498f"},
+    {file = "python_dotenv-0.20.0-py3-none-any.whl", hash = "sha256:d92a187be61fe482e4fd675b6d52200e7be63a12b724abbf931a40ce4fa92938"},
 ]
 python-telegram-bot = [
     {file = "python-telegram-bot-13.13.tar.gz", hash = "sha256:4296d81a38b7e5ef1f9795651128e58fb354678b8dc4db93ca166c96828c57b2"},

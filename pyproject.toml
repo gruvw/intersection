@@ -16,6 +16,7 @@ intersection = 'intersection.cli:start'
 python = "^3.10"
 python-telegram-bot = "^13.13"
 click = "^8.1.3"
+python-dotenv = "^0.20.0"
 
 [tool.poetry.dev-dependencies]
 

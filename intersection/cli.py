@@ -1,6 +1,9 @@
 import click
 
+from .telegram_bot import updater
+
 
 @click.command()
 def start():
-    print("hey")
+    updater.start_polling()
+    # updater.idle()
