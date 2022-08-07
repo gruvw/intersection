@@ -1,7 +1,8 @@
 import os
 from dotenv import load_dotenv
 from telegram import Update, ParseMode
-from telegram.ext import Updater, CommandHandler, CallbackContext
+from telegram.ext.filters import Filters
+from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandler
 
 from .data import IntersectionData
 
@@ -23,6 +24,13 @@ def commandHandler(func):
     handler = CommandHandler(func.__name__, func)
     dispatcher.add_handler(handler)
     return func
+
+
+def messageHandler(func):
+    handler = MessageHandler(Filters.text & (~Filters.command), func)
+    dispatcher.add_handler(handler)
+    return func
+
 
 # Telegram
 
@@ -81,21 +89,20 @@ def play(update: Update, context: CallbackContext):
 
     if game.is_full():
         for chat_id, opponent in game.get_broadcast_against():
-            # TODO broadcast record holders
-            bot.send_message(chat_id, f"Your game is ready to start\!\nYou are playing against: {opponent.user_name}\.\nUse the `/word example` command to register your next word\.", parse_mode=ParseMode.MARKDOWN_V2)
+            bot.send_message(chat_id, f"Your game is ready to start!\nYou are playing against: {opponent.user_name}.\nSend me your next word.")
         return
 
     game_not_full_message(user.chat_id, game)
 
 
-@commandHandler
+@messageHandler
 def word(update: Update, context):
-    query = context.args[0] if context.args else None
+    query = update.message.text.split()[0]
     user = gameData.get_user(update.message.from_user.id)
     game = user.game if user else None
 
     if not game:
-        bot.send_message(user.chat_id, f"You are not in a game...")
+        bot.send_message(update.effective_chat.id, f"You are not in a game...")
         return
 
     if not game.is_full():
@@ -103,7 +110,7 @@ def word(update: Update, context):
         return
 
     if user.current_word:
-        bot.send_message(user.chat_id, f"You already choose your word...")
+        bot.send_message(user.chat_id, f"You already chose your word...")
         return
 
     if not query:
@@ -115,19 +122,22 @@ def word(update: Update, context):
 
     opponent = game.get_opponent_of(user)
     if opponent.current_word:
+        words = sorted([(user.user_name, user.current_word), (opponent.user_name, opponent.current_word)], key=lambda e: e[0])
+        game.words.append([words[0][1], words[1][1]])
         if opponent.current_word == query:
-            broadcast(game, f"You won 🎉! It took you {game.rounds_count} rounds to settle.\nType to /play to play again.")
+            summary = '\n'.join(' - '.join(w) for w in game.words)
+            broadcast(game, f"You won 🎉! It took you {game.rounds_count + 1} rounds to settle.\nSummary of the game:\n{summary}\nType to /play to play again.")
             game.terminate()
         else:
             for chat_id, opponent in game.get_broadcast_against():
+                # TODO bold
                 bot.send_message(chat_id, f"Oups, {opponent.user_name} entered **{opponent.current_word}**\. Try again\!", parse_mode=ParseMode.MARKDOWN_V2)
             game.new_round()
         return
 
     bot.send_message(user.chat_id, f"Your word has been registered, wait for {opponent.user_name} to enter theirs.")
-    bot.send_message(opponent.chat_id, f"{user.user_name} registered his word.")
+    bot.send_message(opponent.chat_id, f"{user.user_name} registered their word.")
 
 
-# TODO CUSTOM room
-# TODO Type word directly
-# TODO game summary at the end
+# TODO menu and botfather config
+# convert word to lower and remove accents

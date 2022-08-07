@@ -64,6 +64,7 @@ class Game:
     def __init__(self, name):
         self.name = name
         self._players: list[User] = []
+        self.words = []
         self.rounds_count = 0
 
     def get_opponent_of(self, player):
@@ -89,6 +90,7 @@ class Game:
     def reset(self):
         for player in self._players:
             player.current_word = ""
+        self.words.clear()
         self.rounds_count = 0
 
     def terminate(self):
