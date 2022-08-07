@@ -67,6 +67,12 @@ class Game:
         self.words = []
         self.rounds_count = 0
 
+    def has_already_been_used(self, word):
+        for w1, w2 in self.words:
+            if word == w1 or word == w2:
+                return True
+        return False
+
     def get_opponent_of(self, player):
         return self._players[0] if self._players[0] != player else self._players[1]
 

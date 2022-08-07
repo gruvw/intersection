@@ -117,7 +117,10 @@ def word(update: Update, context):
         context.bot.send_message(user.chat_id, f"Invalid word, please try again.")
         return
 
-    # TODO if query is a word we already used
+    if game.has_already_been_used(query):
+        context.bot.send_message(user.chat_id, f"This word has already been used, please enter another word.")
+        return
+
     user.current_word = query
 
     opponent = game.get_opponent_of(user)
@@ -141,3 +144,4 @@ def word(update: Update, context):
 
 # TODO menu and botfather config
 # convert word to lower and remove accents
+# Emojis and text improvements
