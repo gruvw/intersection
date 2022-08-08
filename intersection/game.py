@@ -6,7 +6,7 @@ def play(update: Update, context: CallbackContext):
     user_name = update.message.from_user.name
     chat_id = update.effective_chat.id
 
-    game_name = context.args[0] if context.args else None
+    game_name = unidecode.unidecode(context.args[0]).lower() if context.args else None
 
     user = gameData.get_user(user_id) or gameData.create_user(user_id, user_name, chat_id)
 
@@ -63,8 +63,10 @@ def word(update: Update, context):
         words = sorted([(user.user_name, user.current_word), (opponent.user_name, opponent.current_word)], key=lambda e: e[0])
         game.words.append([words[0][1], words[1][1]])
         if opponent.current_word == query:
+            players = f"{words[0][0]} \& {words[1][0]}\n"
             summary = '\n'.join(' \- '.join(w) for w in game.words)
-            broadcast(game, f"🎉 You won\! It took you *{game.rounds_count + 1} rounds* to settle\.\nSummary of the game:\n{summary}\nType to /play to play again\.", parse_mode=ParseMode.MARKDOWN_V2)
+            broadcast(game, f"🎉 You won! Summary of the game:")
+            broadcast(game, f"It took *{game.rounds_count + 1} round{'s' if game.rounds_count else ''}* for {players} to settle\.\n{summary}\nSend /play to {bot_username} to play Intersection\.", parse_mode=ParseMode.MARKDOWN_V2)
             game.terminate()
         else:
             for chat_id, opponent in game.get_broadcast_against():
