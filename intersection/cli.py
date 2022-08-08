@@ -1,6 +1,6 @@
 import click
 
-from .telegram_bot import updater
+from .game import updater
 
 
 @click.command()
