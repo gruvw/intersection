@@ -23,5 +23,5 @@ Simply send me your next word when within a game (won't take accents and capital
 ## Run instance
 
 1. Install using `pip install intersection`
-2. Specify the environnement variable `INTERSECTION_TELEGRAM_BOT_TOKEN`
+2. Specify the environnement variable `INTERSECTION_TELEGRAM_BOT_TOKEN` (see [How to create a Telegram bot](https://core.telegram.org/bots#3-how-do-i-create-a-bot))
 3. Start the bot using the `intersection-game` command
