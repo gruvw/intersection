@@ -9,7 +9,7 @@ from .data import IntersectionData
 
 
 load_dotenv()
-updater = Updater(token=os.getenv("TELEGRAM_BOT_TOKEN"), use_context=True)
+updater = Updater(token=os.getenv("INTERSECTION_TELEGRAM_BOT_TOKEN"), use_context=True)
 dispatcher = updater.dispatcher
 bot = dispatcher.bot
 bot_username = bot.name
@@ -45,7 +45,7 @@ def game_not_full_message(chat_id, game):
 
 @commandHandler
 def start(update, context: CallbackContext):
-    update.message.reply_text("👋 Hello and welcome to The Intersection Game!\nThis is a two-player game so you must find another player to start a game.\nTo do so you must use the /play command. Typing /play will put you inside a game; if another player also uses /play soon after you, the game will start with this person as the other player.\nIf you specify a password (e.g. `/play 123`) you will only play against a player who uses the same password.\nOn each round, each player must enter their word. The goal is to enter the same word based on the two previously entered ones. Words may only be used once per game.\n Have fun!\n")
+    update.message.reply_text("👋 Hello and welcome to The Intersection Game!\nThis is a two-player game so you must find another player to start a game.\nTo do so you must use the /play command. Typing /play will put you inside a game; if another player also uses /play soon after you, the game will start with this person as the other player.\nIf you specify a password (e.g. `/play 123`) you will only play against a player who uses the same password.\nOn each round, each player must enter their word. The goal is to enter the same word based on the two previously entered ones. Words may only be used once per game.\nHave fun!\n")
 
 
 @commandHandler

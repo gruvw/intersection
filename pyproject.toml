@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "intersection"
-version = "0.1.0"
+version = "0.0.1"
 description = "Telegram based version of a text based game where two players try to find the same word."
 authors = ["gruvw <gruvw.dev@gmail.com>"]
 readme = "README.md"
@@ -10,7 +10,7 @@ packages = [
 ]
 
 [tool.poetry.scripts]
-intersection = 'intersection.cli:start'
+intersection-game = 'intersection.cli:start'
 
 [tool.poetry.dependencies]
 python = "^3.10"
